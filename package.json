@@ -1,0 +1,31 @@
+{
+  "name": "daily-demo-boilerplate",
+  "version": "1.0.0",
+  "description": "A boilerplate template repository for Daily demos",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server ./src/ -c-1",
+    "check": "eslint src/",
+    "fix": "eslint src/ --fix",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daily-demos/boilerplate.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/daily-demos/boilerplate/issues"
+  },
+  "homepage": "https://github.com/daily-demos/boilerplate#readme",
+  "devDependencies": {
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "http-server": "^14.1.1",
+    "jest": "^28.1.1"
+  }
+}
