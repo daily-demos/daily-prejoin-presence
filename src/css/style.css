@@ -2,3 +2,7 @@
 #container {
     margin-top: 52px;
 }
+
+.hidden {
+    display: none;
+}
