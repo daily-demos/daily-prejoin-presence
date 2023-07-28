@@ -43,7 +43,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		return util.NewNoAPIKeyRes(), nil
 	}
 
-	participants, err := getPresence(roomName, apiKey)
+	participants, err := getPresence(roomName, apiKey, util.DailyAPIURL)
 	if err != nil {
 		errMsg := "failed to get presence"
 		fmt.Printf("\n%s: %v", errMsg, err)
@@ -68,8 +68,8 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 }
 
 // getPresence retrieves all participants already in the given Daily room
-func getPresence(roomName string, apiKey string) ([]Participant, error) {
-	endpoint := fmt.Sprintf("%s/rooms/%s/presence", util.DailyAPIURL, roomName)
+func getPresence(roomName, apiKey, apiURL string) ([]Participant, error) {
+	endpoint := fmt.Sprintf("%s/rooms/%s/presence", apiURL, roomName)
 	// Make the actual HTTP request
 	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
@@ -91,7 +91,7 @@ func getPresence(roomName string, apiKey string) ([]Participant, error) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed to make API call to Daily: %d: %s", res.StatusCode, string(resBody))
+		return nil, util.NewErrFailedDailyAPICall(fmt.Errorf("%d: %s", res.StatusCode, string(resBody)))
 	}
 
 	var pr presenceRes

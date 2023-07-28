@@ -43,7 +43,7 @@ func handler(_ events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, 
 		return util.NewNoAPIKeyRes(), nil
 	}
 
-	room, err := createRoom(apiKey)
+	room, err := createRoom(apiKey, util.DailyAPIURL)
 	if err != nil {
 		errMsg := "failed to create room"
 		fmt.Printf("\n%s: %v", errMsg, err)
@@ -70,7 +70,7 @@ func handler(_ events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, 
 }
 
 // createRoom creates a Daily room.
-func createRoom(apiKey string) (*Room, error) {
+func createRoom(apiKey, apiURL string) (*Room, error) {
 	// We'll use a "presence-" prefix for rooms created by this demo.
 	name, err := generateNameWithPrefix("presence-")
 	if err != nil {
@@ -88,7 +88,7 @@ func createRoom(apiKey string) (*Room, error) {
 		return nil, fmt.Errorf("failed to make room creation request body: %w", err)
 	}
 
-	endpoint := fmt.Sprintf("%s/rooms", util.DailyAPIURL)
+	endpoint := fmt.Sprintf("%s/rooms", apiURL)
 
 	// Make the actual HTTP request
 	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(reqBody))
@@ -112,7 +112,7 @@ func createRoom(apiKey string) (*Room, error) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed to make API call to Daily: %d: %s", res.StatusCode, string(resBody))
+		return nil, util.NewErrFailedDailyAPICall(fmt.Errorf("%d: %s", res.StatusCode, string(resBody)))
 	}
 
 	var room Room
