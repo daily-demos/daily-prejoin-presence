@@ -1,6 +1,6 @@
 [build]
   base    = "."
-  publish = "./dist/"
+  publish = "./src/"
   environment = {NODE_VERSION = "16.16.0" }
 
 # Set enviroment variable prompts for templates

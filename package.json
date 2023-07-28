@@ -1,20 +1,20 @@
 {
-  "name": "daily-demo-boilerplate",
+  "name": "daily-prejoin-presence",
   "version": "1.0.0",
-  "description": "A boilerplate template repository for Daily demos",
+  "description": "A demo showing how to display meeting attendance before joining a Daily room",
   "main": "index.js",
   "scripts": {
     "start": "http-server ./src/ -c-1",
     "check": "eslint src/",
     "fix": "eslint src/ --fix",
-    "dev": "npm run build && sh ./dev.sh",
+    "dev": "sh ./dev.sh",
     "update": "npm outdated | awk 'NR>1 {print $1\"@\"$4}' | xargs npm install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daily-demos/boilerplate.git"
   },
-  "author": "",
+  "author": "Liza Shulyayeva",
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/daily-demos/boilerplate/issues"
@@ -27,6 +27,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^5.0.0",
     "http-server": "^14.1.1",
-    "jest": "^29.6.1"
+    "jest": "^29.6.1",
+    "netlify-cli": "^15.9.1"
   }
 }

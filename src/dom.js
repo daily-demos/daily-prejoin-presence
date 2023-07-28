@@ -1,5 +1,9 @@
 const hiddenClassName = 'hidden';
 
+/**
+ * Sets up the onclick handler for the call creation button.
+ * @param onclick
+ */
 export function setupCreateButton(onclick) {
   const createBtn = document.getElementById('createRoom');
   createBtn.onclick = () => {
@@ -7,6 +11,10 @@ export function setupCreateButton(onclick) {
   };
 }
 
+/**
+ * Adds a participant label to the presence list.
+ * @param label
+ */
 export function addToPresenceList(label) {
   const participants = document.getElementById('participants');
   const item = document.createElement('li');

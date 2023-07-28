@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Daily Demo Boilerplate</title>
+    <title>Daily Prejoin Presence Demo</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
@@ -24,7 +24,7 @@
             alt="Daily logo reads Daily"
           />
           <strong>
-            <p class="header-title">Daily demo</p>
+            <p class="header-title">Daily Prejoin Presence Demo</p>
           </strong>
         </div>
         <div class="right-header">
@@ -65,16 +65,21 @@
       <div id="entry">
         <button id="createRoom">Create Room</button>
       </div>
-      <div id="call">
+      <div id="call" class="hidden">
         <div id="callFrame"></div>
-        <div id="presence" class="hidden">
-          The following participants are already in the call:
-          <ul id="participants"></ul>
+        <div id="sidebar">
+          <div id="invite">Invite URL:
+            <br /><a id="inviteURL" href=""></a></div>
+          <hr />
+          <div id="presence" class="hidden">
+            The following participants are already in the call:
+            <ul id="participants"></ul>
+          </div>
         </div>
 
       </div>
     </div>
     <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
-    <script src="./call.js"></script>
+    <script src="./call.js" type="module"></script>
   </body>
 </html>

@@ -1,8 +1,91 @@
-/* Your custom styles go here! */
+:root {
+    --grey-lightest: #f7f9fa;
+    --blue-light: rgba(43, 63, 86, 0.81);
+    --green: #72cc18;
+    --green-light: rgba(114, 204, 24, 0.68);
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: "Helvetica Neue", Sans-Serif, sans-serif;
+    background: var(--blue-light);
+    color: var(--grey-lightest);
+}
+
+body a {
+    color: orange;
+}
+
+body a:hover {
+    color: darkorange;
+}
+
+ul {
+    list-style-type: square;
+    list-style-position: inside;
+}
+
+#participants li {
+    border-bottom: solid 1px darkorange;
+    margin-bottom: 2px;
+    padding: 1px;
+    color: var(--grey-lightest);
+    border-radius: 3px;
+}
+
 #container {
     margin-top: 52px;
+    height: 100%;
+}
+
+#call {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+#callFrame {
+    width: 70%;
+    height: 100%;
+    padding-right: 15px;
+}
+
+#presence {
+    padding-top: 10px;
+}
+
+#sidebar {
+    width: 40%;
+    padding-top: 5px;
+}
+
+#inviteURL {
+    font-size: 0.7em;
 }
 
 .hidden {
-    display: none;
+    display: none !important;
+}
+
+#entry {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 70px;
+}
+
+#entry button {
+    width: 150px;
+    height: 32px;
+    padding: 8px 16px;
+    font-weight: bold;
+    background: var(--green);
+    border-radius: 8px;
+    border-width: 0px;
+    cursor: pointer;
+}
+
+#entry button:hover {
+    background: var(--green-light);
 }

@@ -1,6 +1,6 @@
-# Daily boilerplate
+# Daily Prejoin Presence
 
-A boilerplate repository to be used as a template for Daily demos.
+This demo shows a list of participants who have already entered a video call. This allows a user who is about to enter a Daily room to know who is already in the room before they join the call.
 
 ![Demo screenshot description](./screenshot.png)
 
@@ -10,25 +10,28 @@ A boilerplate repository to be used as a template for Daily demos.
 
 ## How the demo works
 
-Describe the demo a little more here.
+This demo uses Daily Prebuilt to embed a full-featured video call on the client. It uses stateless Netlify functions to create Daily rooms and retrieve their presence information with Daily's RESET API.
 
 ## Running locally
 
-1. Steps
-1. To run 
-1. This demo
-1. Locally
+1. Run `git clone git@github.com:daily-demos/daily-prejoin-presence.git`
+1. Run `cd daily-prejoin-presence`
+1. Run `npm i`
+1. Copy `example.env` and replace `DAILY_API_KEY` with your [Daily developer API key](https://dashboard.daily.co/developers?endTime=1690539529334&domain=lizashul). **Note:** Do _not_ submit this file to version control.
+1. Run `npm run dev`
 
 ## Contributing and feedback
 
-Let us know how experimenting with this demo goes! Feel free to reach out to us any time at `help@daily.co`.
+Contributions are welcome in the form of GitHub issues or pull requests.
 
-(Feel free to edit the above in your own voice)
+## What's next
 
-## What's next (optional)
+A couple of ways to extend the functionality in this demo include:
 
-Maybe some ideas for how this demo can be expanded and improved upon? 
+* Update the presence list when participants join or leave a room (currently, the presence list is updated once per call prejoin.)
+* Display _when_ a user has joined the call in the presence list.
 
-## Related blog posts/guides (optional)
+## Related blog posts/guides
 
-Link to any Daily content that will help the reader understand how this app works.
+* Daily's [REST API documentation](https://docs.daily.co/reference/rest-api)
+* [Creating video call rooms securely with Daily's REST API](https://www.daily.co/blog/creating-video-call-rooms-securely-with-dailys-rest-api/)

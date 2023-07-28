@@ -11,7 +11,6 @@ import (
 	"io"
 	"math/big"
 	"net/http"
-	"net/url"
 	"os"
 	"time"
 )
@@ -22,8 +21,12 @@ type Room struct {
 }
 
 type createParams struct {
-	Name string `json:"name"`
-	Exp  int64  `json:"exp,omitempty"`
+	Name       string    `json:"name,omitempty"`
+	Properties roomProps `json:"properties,omitempty"`
+}
+
+type roomProps struct {
+	Exp int64 `json:"exp,omitempty"`
 }
 
 func main() {
@@ -31,42 +34,31 @@ func main() {
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	q, err := url.ParseQuery(request.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse query: %w", err)
-	}
-	roomName := q.Get("roomName")
-	if roomName == "" {
-		return &events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:       "roomName parameter not found in request",
-		}, nil
-	}
-
 	apiKey := os.Getenv("DAILY_API_KEY")
 	if apiKey == "" {
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
-			Body:       "server authentication with Daily failed",
+			Body:       util.NewErrorBody("server authentication with Daily failed"),
 		}, nil
 	}
-
 	room, err := createRoom(apiKey)
 	if err != nil {
-		errMsg := "failed to marshal participants"
+		errMsg := "failed to create room"
 		fmt.Printf("\n%s: %v", errMsg, err)
+
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
-			Body:       fmt.Sprintf("%s (check server logs)", errMsg),
+			Body:       util.NewErrorBody(fmt.Sprintf("%s (check server logs)", errMsg)),
 		}, nil
 	}
 	data, err := json.Marshal(room)
 	if err != nil {
-		errMsg := "failed to marshal participants"
+		errMsg := "failed to marshal room"
 		fmt.Printf("\n%s: %v", errMsg, err)
+
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
-			Body:       fmt.Sprintf("%s (check server logs)", errMsg),
+			Body:       util.NewErrorBody(fmt.Sprintf("%s (check server logs)", errMsg)),
 		}, nil
 	}
 	return &events.APIGatewayProxyResponse{
@@ -75,16 +67,15 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	}, nil
 }
 
-// CreateWithPrefix creates a room with the name containing the specified
-// prefix. The rest of the name is randomized.
+// createRoom creates a Daily room.
 func createRoom(apiKey string) (*Room, error) {
 	name, err := generateNameWithPrefix("presence-")
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate room name: %w", err)
 	}
 	params := createParams{
-		Name: name,
-		Exp:  time.Now().Add(time.Hour).Unix(),
+		Name:       name,
+		Properties: roomProps{Exp: time.Now().Add(time.Hour).Unix()},
 	}
 	params.Name = name
 
@@ -129,6 +120,8 @@ func createRoom(apiKey string) (*Room, error) {
 	return &room, nil
 }
 
+// generateNameWithPrefix generates a Daily room name with
+// the given prefix.
 func generateNameWithPrefix(prefix string) (string, error) {
 	s, err := generateRandStr(20)
 	if err != nil {
@@ -137,6 +130,7 @@ func generateNameWithPrefix(prefix string) (string, error) {
 	return fmt.Sprintf("%s%s", prefix, s), nil
 }
 
+// generateRandStr generates a string of the request length.
 func generateRandStr(length int) (string, error) {
 	const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 	result := make([]byte, length)

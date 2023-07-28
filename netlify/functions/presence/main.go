@@ -8,13 +8,20 @@ import (
 	"github.com/daily-demos/daily-prejoin-presence/m/v2/util"
 	"io"
 	"net/http"
-	"net/url"
 	"os"
 )
 
+// Participant represents a Daily participant.
+// who is already in a Daily room
 type Participant struct {
 	ID   string `json:"id"`
-	Name string `json:"name"`
+	Name string `json:"userName"`
+}
+
+// presenceRes is the expected response format
+// from Daily's REST API when retrieving room presence.
+type presenceRes struct {
+	Data []Participant
 }
 
 func main() {
@@ -22,15 +29,12 @@ func main() {
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	q, err := url.ParseQuery(request.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse query: %w", err)
-	}
-	roomName := q.Get("roomName")
-	if roomName == "" {
+	q := request.QueryStringParameters
+	roomName, ok := q["roomName"]
+	if !ok {
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusBadRequest,
-			Body:       "roomName parameter not found in request",
+			Body:       util.NewErrorBody("roomName parameter not found in request"),
 		}, nil
 	}
 
@@ -38,17 +42,17 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	if apiKey == "" {
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
-			Body:       "server authentication with Daily failed",
+			Body:       util.NewErrorBody("server authentication with Daily failed"),
 		}, nil
 	}
 
 	participants, err := getPresence(roomName, apiKey)
 	if err != nil {
-		errMsg := "failed to marshal participants"
+		errMsg := "failed to get presence"
 		fmt.Printf("\n%s: %v", errMsg, err)
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
-			Body:       fmt.Sprintf("%s (check server logs)", errMsg),
+			Body:       util.NewErrorBody(fmt.Sprintf("%s (check server logs)", errMsg)),
 		}, nil
 	}
 	data, err := json.Marshal(participants)
@@ -57,7 +61,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		fmt.Printf("\n%s: %v", errMsg, err)
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
-			Body:       fmt.Sprintf("%s (check server logs)", errMsg),
+			Body:       util.NewErrorBody(fmt.Sprintf("%s (check server logs)", errMsg)),
 		}, nil
 	}
 	return &events.APIGatewayProxyResponse{
@@ -66,8 +70,9 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	}, nil
 }
 
-func getPresence(name string, apiKey string) ([]Participant, error) {
-	endpoint := fmt.Sprintf("%s/%s/presence", util.DailyAPIURL, name)
+// getPresence retrieves all participants already in the given Daily room
+func getPresence(roomName string, apiKey string) ([]Participant, error) {
+	endpoint := fmt.Sprintf("%s/rooms/%s/presence", util.DailyAPIURL, roomName)
 	// Make the actual HTTP request
 	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
@@ -92,9 +97,9 @@ func getPresence(name string, apiKey string) ([]Participant, error) {
 		return nil, fmt.Errorf("failed to make API call to Daily: %d: %s", res.StatusCode, string(resBody))
 	}
 
-	var participants []Participant
-	if err := json.Unmarshal(resBody, &participants); err != nil {
+	var pr presenceRes
+	if err := json.Unmarshal(resBody, &pr); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal Daily response to participant slice: %w", err)
 	}
-	return participants, nil
+	return pr.Data, nil
 }
