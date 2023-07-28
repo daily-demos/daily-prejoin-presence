@@ -17,7 +17,7 @@ This demo uses Daily Prebuilt to embed a full-featured video call on the client.
 1. Run `git clone git@github.com:daily-demos/daily-prejoin-presence.git`
 1. Run `cd daily-prejoin-presence`
 1. Run `npm i`
-1. Copy `example.env` and replace `DAILY_API_KEY` with your [Daily developer API key](https://dashboard.daily.co/developers?endTime=1690539529334&domain=lizashul). **Note:** Do _not_ submit this file to version control.
+1. Copy `example.env` and replace `DAILY_API_KEY` with your [Daily developer API key](https://dashboard.daily.co/developers). **Note:** Do _not_ submit this file to version control.
 1. Run `npm run dev`
 
 ## Contributing and feedback
