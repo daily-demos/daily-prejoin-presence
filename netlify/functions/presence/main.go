@@ -40,10 +40,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 	apiKey := os.Getenv("DAILY_API_KEY")
 	if apiKey == "" {
-		return &events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:       util.NewErrorBody("server authentication with Daily failed"),
-		}, nil
+		return util.NewNoAPIKeyRes(), nil
 	}
 
 	participants, err := getPresence(roomName, apiKey)

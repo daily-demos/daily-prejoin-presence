@@ -15,16 +15,20 @@ import (
 	"time"
 )
 
+// Room represents a Daily room
 type Room struct {
 	Name string `json:"name"`
 	URL  string `json:"url"`
 }
 
+// createParams are parameters we'll be sending
+// to Daily's REST API when creating a room.
 type createParams struct {
 	Name       string    `json:"name,omitempty"`
 	Properties roomProps `json:"properties,omitempty"`
 }
 
+// roomProps are room creation properties relevant to this demo.
 type roomProps struct {
 	Exp int64 `json:"exp,omitempty"`
 }
@@ -33,14 +37,12 @@ func main() {
 	lambda.Start(handler)
 }
 
-func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+func handler(_ events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	apiKey := os.Getenv("DAILY_API_KEY")
 	if apiKey == "" {
-		return &events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:       util.NewErrorBody("server authentication with Daily failed"),
-		}, nil
+		return util.NewNoAPIKeyRes(), nil
 	}
+
 	room, err := createRoom(apiKey)
 	if err != nil {
 		errMsg := "failed to create room"
@@ -69,15 +71,16 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 // createRoom creates a Daily room.
 func createRoom(apiKey string) (*Room, error) {
+	// We'll use a "presence-" prefix for rooms created by this demo.
 	name, err := generateNameWithPrefix("presence-")
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate room name: %w", err)
 	}
 	params := createParams{
-		Name:       name,
+		Name: name,
+		// Rooms created for this demo will expire in 1 hour.
 		Properties: roomProps{Exp: time.Now().Add(time.Hour).Unix()},
 	}
-	params.Name = name
 
 	// Make the request body for room creation
 	reqBody, err := json.Marshal(params)
