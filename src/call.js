@@ -129,6 +129,7 @@ async function fetchParticipants(roomName) {
   if (res.status !== 200) {
     const msg = `${errMsg}. Status code: ${res.status}`;
     console.error(`failed to fetch presence for Daily room: ${msg}`, body);
+    return;
   }
 
   const count = body.length;

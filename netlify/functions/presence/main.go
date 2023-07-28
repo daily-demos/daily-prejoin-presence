@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/daily-demos/daily-prejoin-presence/m/v2/util"
 	"io"
+	"log"
 	"net/http"
 	"os"
 )
@@ -21,7 +22,7 @@ type Participant struct {
 // presenceRes is the expected response format
 // from Daily's REST API when retrieving room presence.
 type presenceRes struct {
-	Data []Participant
+	Data []Participant `json:"data"`
 }
 
 func main() {
@@ -46,7 +47,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	participants, err := getPresence(roomName, apiKey, util.DailyAPIURL)
 	if err != nil {
 		errMsg := "failed to get presence"
-		fmt.Printf("\n%s: %v", errMsg, err)
+		log.Printf("%s: %v", errMsg, err)
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
 			Body:       util.NewErrorBody(fmt.Sprintf("%s (check server logs)", errMsg)),
@@ -55,7 +56,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	data, err := json.Marshal(participants)
 	if err != nil {
 		errMsg := "failed to marshal participants"
-		fmt.Printf("\n%s: %v", errMsg, err)
+		log.Printf("%s: %v", errMsg, err)
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
 			Body:       util.NewErrorBody(fmt.Sprintf("%s (check server logs)", errMsg)),

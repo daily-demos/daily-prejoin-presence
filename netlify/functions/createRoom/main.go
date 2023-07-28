@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/daily-demos/daily-prejoin-presence/m/v2/util"
 	"io"
+	"log"
 	"math/big"
 	"net/http"
 	"os"
@@ -46,7 +47,7 @@ func handler(_ events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, 
 	room, err := createRoom(apiKey, util.DailyAPIURL)
 	if err != nil {
 		errMsg := "failed to create room"
-		fmt.Printf("\n%s: %v", errMsg, err)
+		log.Printf("%s: %v", errMsg, err)
 
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
@@ -56,7 +57,7 @@ func handler(_ events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, 
 	data, err := json.Marshal(room)
 	if err != nil {
 		errMsg := "failed to marshal room"
-		fmt.Printf("\n%s: %v", errMsg, err)
+		log.Printf("%s: %v", errMsg, err)
 
 		return &events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
