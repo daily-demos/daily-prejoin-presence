@@ -127,12 +127,14 @@ func createRoom(apiKey, apiURL string) (*Room, error) {
 // generateNameWithPrefix generates a Daily room name with
 // the given prefix.
 func generateNameWithPrefix(prefix string) (string, error) {
-	const maxLength = 20
+	const maxPrefixLength = 10
 	prefixLength := len(prefix)
-	remainingLength := maxLength - prefixLength
-	if remainingLength <= 0 {
-		return "", fmt.Errorf("prefix is too long (%d characters). The room name must be up to %d characters in total", prefixLength, maxLength)
+	if prefixLength > maxPrefixLength {
+		return "", fmt.Errorf("prefix is too long (%d characters); prefix must be up to %d characters to allow for sufficient room name randomization", prefixLength, maxPrefixLength)
 	}
+	const maxLength = 20
+	remainingLength := maxLength - prefixLength
+
 	s, err := generateRandStr(remainingLength)
 	if err != nil {
 		return "", err
