@@ -72,8 +72,8 @@ func handler(_ events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, 
 
 // createRoom creates a Daily room.
 func createRoom(apiKey, apiURL string) (*Room, error) {
-	// We'll use a "presence-" prefix for rooms created by this demo.
-	name, err := generateNameWithPrefix("presence-")
+	// We'll use a "prsnc-" prefix for rooms created by this demo.
+	name, err := generateNameWithPrefix("prsnc-")
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate room name: %w", err)
 	}
@@ -127,7 +127,13 @@ func createRoom(apiKey, apiURL string) (*Room, error) {
 // generateNameWithPrefix generates a Daily room name with
 // the given prefix.
 func generateNameWithPrefix(prefix string) (string, error) {
-	s, err := generateRandStr(20)
+	const maxLength = 20
+	prefixLength := len(prefix)
+	remainingLength := maxLength - prefixLength
+	if remainingLength <= 0 {
+		return "", fmt.Errorf("prefix is too long (%d characters). The room name must be up to %d characters in total", prefixLength, maxLength)
+	}
+	s, err := generateRandStr(remainingLength)
 	if err != nil {
 		return "", err
 	}
