@@ -31,7 +31,8 @@ type createParams struct {
 
 // roomProps are room creation properties relevant to this demo.
 type roomProps struct {
-	Exp int64 `json:"exp,omitempty"`
+	Exp             int64 `json:"exp,omitempty"`
+	EnablePrejoinUI bool  `json:"enable_prejoin_ui"`
 }
 
 func main() {
@@ -80,7 +81,10 @@ func createRoom(apiKey, apiURL string) (*Room, error) {
 	params := createParams{
 		Name: name,
 		// Rooms created for this demo will expire in 1 hour.
-		Properties: roomProps{Exp: time.Now().Add(time.Hour).Unix()},
+		Properties: roomProps{
+			Exp:             time.Now().Add(time.Hour).Unix(),
+			EnablePrejoinUI: true,
+		},
 	}
 
 	// Make the request body for room creation
