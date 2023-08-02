@@ -135,12 +135,12 @@ async function fetchParticipants(roomName) {
   const count = body.length;
   if (count === 0) {
     addToPresenceList('Nobody here yet!');
-    return;
-  }
-  for (let i = 0; i < body.length; i += 1) {
-    const p = body[i];
-    const label = p.userName ? p.userName : p.id;
-    addToPresenceList(label);
+  } else {
+    for (let i = 0; i < body.length; i += 1) {
+      const p = body[i];
+      const label = p.userName ? p.userName : p.id;
+      addToPresenceList(label);
+    }
   }
   showPresence();
 }
