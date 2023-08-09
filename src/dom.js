@@ -16,18 +16,19 @@ export function setupCreateButton(onclick) {
  * @param label
  */
 export function addToPresenceList(label) {
-  const participants = document.getElementById('participants');
+  const participants = getParticipantsEle();
   const item = document.createElement('li');
   item.innerText = label;
   participants.appendChild(item);
 }
 
-export function showPresence() {
-  getPresenceEle().classList.remove('hidden');
+export function clearPresence() {
+  const participants = getParticipantsEle();
+  participants.innerHTML = '';
 }
 
-export function hidePresence() {
-  getPresenceEle().classList.add('hidden');
+export function showPresence() {
+  getPresenceEle().classList.remove(hiddenClassName);
 }
 
 export function showEntry() {
@@ -66,4 +67,8 @@ function getCallEle() {
 
 function getPresenceEle() {
   return document.getElementById('presence');
+}
+
+function getParticipantsEle() {
+  return document.getElementById('participants');
 }

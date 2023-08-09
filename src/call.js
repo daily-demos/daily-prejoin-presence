@@ -1,6 +1,6 @@
 import {
   addToPresenceList,
-  hidePresence,
+  clearPresence,
   setupCreateButton,
   showCall,
   showEntry,
@@ -70,16 +70,23 @@ function joinRoom(roomURL, roomName) {
   const callFrame = window.DailyIframe.createFrame(callContainer, {
     showLeaveButton: true,
   });
-  callFrame.on('joined-meeting', () => {
-    // Presence view is no longer needed once the participant is in the room.
-    hidePresence();
+  callFrame.on('left-meeting', () => {
+    showEntry();
+    clearPresence();
+    callFrame.destroy();
   });
+
   callFrame.join({ url: roomURL });
 
-  updateInviteURL(roomURL, roomName);
+  updateDisplayedURLs(roomURL, roomName);
 
   // Fetch existing participants and show them next to the call frame
   fetchParticipants(roomName);
+}
+
+function updateDisplayedURLs(roomURL, roomName) {
+  updateInviteURL(roomURL, roomName);
+  updateDailyRoomURL(roomURL);
 }
 
 function updateInviteURL(roomURL, roomName) {
@@ -93,6 +100,12 @@ function updateInviteURL(roomURL, roomName) {
   const inviteURL = url.toString();
   inviteURLEle.href = inviteURL;
   inviteURLEle.innerText = inviteURL;
+}
+
+function updateDailyRoomURL(roomURL) {
+  const urlEle = document.getElementById('dailyRoomURL');
+  urlEle.href = roomURL;
+  urlEle.innerText = roomURL;
 }
 
 /**

@@ -7,10 +7,14 @@ This demo shows a list of participants who have already entered a video call. Th
 ## Prerequisites
 
 - [Sign up for a Daily account](https://dashboard.daily.co/signup).
+- [Install Go](https://go.dev/doc/install) if you don't already have it.
 
 ## How the demo works
 
-This demo uses Daily Prebuilt to embed a full-featured video call on the client. It uses stateless Netlify functions to create Daily rooms and retrieve their presence information with Daily's RESET API.
+This demo uses Daily Prebuilt to embed a full-featured video call on the client. It uses stateless Netlify functions to create Daily rooms and retrieve their presence information with Daily's REST API.
+
+* The client-side Daily logic (to instantiate a call frame and join a call) is written in vanilla JavaScript and can be found in `src/call.js`
+* The server-side Daily logic (to create a Daily room and retrieve presence informatino) is written in Go and can be found in `netlify/functions/`
 
 ## Running locally
 

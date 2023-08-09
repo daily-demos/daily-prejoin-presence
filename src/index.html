@@ -45,7 +45,7 @@
           </a>
           <span class="divider"></span>
           <a
-            href="https://github.com/daily-demos/boilerplate-vanilla-js/"
+            href="https://github.com/daily-demos/daily-prejoin-presence/"
             target="_blank"
           >
             <img
@@ -63,16 +63,25 @@
     </noscript>
     <div id="container">
       <div id="entry">
+        <h1>Daily Prejoin Presence Demo</h1>
+        <p>Create and share a Daily room, allowing participants to see who is already in the call before they join.</p>
         <button id="createRoom">Create Room</button>
       </div>
       <div id="call" class="hidden">
         <div id="callFrame"></div>
         <div id="sidebar">
-          <div id="invite">Invite URL:
-            <br /><a id="inviteURL" href=""></a></div>
-          <hr />
+          <div id="invite">
+            <p>
+              Invite URL:
+              <br /><a id="inviteURL" href=""></a>
+            </p>
+            <p>
+              Daily Prebuilt room URL:
+              <br /><a id="dailyRoomURL" href=""></a>
+            </p>
+          </div>
           <div id="presence" class="hidden">
-            The following participants are already in the call:
+            <p>The following participants are already in the call (refresh the page to update!):</p>
             <ul id="participants"></ul>
           </div>
         </div>
