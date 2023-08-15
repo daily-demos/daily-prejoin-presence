@@ -4,7 +4,6 @@
   "description": "A demo showing how to display meeting attendance before joining a Daily room",
   "main": "index.js",
   "scripts": {
-    "start": "http-server ./src/ -c-1",
     "check": "eslint src/",
     "fix": "eslint src/ --fix",
     "dev": "sh ./dev.sh",

@@ -28,7 +28,6 @@ body a:hover {
 ul {
     list-style-type: square;
     list-style-position: inside;
-    overflow-y: scroll;
 }
 
 #participants li {
@@ -45,24 +44,11 @@ ul {
     overflow-y: clip;
 }
 
-#call {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-}
-
 #callFrame {
     flex-shrink: 0;
     height: 100%;
     padding-right: 15px;
     flex-basis: calc(66.67% + 10px);
-}
-
-#presence {
-    padding-top: 10px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
 }
 
 #sidebar {
@@ -79,12 +65,21 @@ ul {
     word-break: break-all;
 }
 
-
-.hidden {
-    display: none !important;
+.presence {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
 }
 
-#entry {
+
+.call {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.entry {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,7 +87,7 @@ ul {
     flex-direction: column;
 }
 
-#entry button {
+.entry button {
     width: 150px;
     height: 32px;
     padding: 8px 16px;
@@ -103,6 +98,10 @@ ul {
     cursor: pointer;
 }
 
-#entry button:hover {
+.entry button:hover {
     background: var(--green-light);
+}
+
+.hidden {
+    display: none !important;
 }
