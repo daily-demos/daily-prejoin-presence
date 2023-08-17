@@ -13,6 +13,12 @@
         "sourceType": "module"
     },
     "rules": {
-        "prettier/prettier": ["error", { "singleQuote": true }]
+        "prettier/prettier": ["error", { "singleQuote": true }],
+        "no-continue": "off",
+        "no-use-before-define": [
+            "error",
+            { "functions": false }
+        ],
+        "import/extensions": "off"
     }
 }

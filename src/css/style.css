@@ -1,4 +1,107 @@
-/* Your custom styles go here! */
+:root {
+    --grey-lightest: #f7f9fa;
+    --blue-light: rgba(43, 63, 86, 0.81);
+    --green: #72cc18;
+    --green-light: rgba(114, 204, 24, 0.68);
+    --orange: orange;
+    --orange-dark: darkorange;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: "Helvetica Neue", Sans-Serif, sans-serif;
+    background: var(--blue-light);
+    color: var(--grey-lightest);
+    display: flex;
+    flex-direction: column;
+}
+
+body a {
+    color: var(--orange);
+}
+
+body a:hover {
+    color: var(--orange-dark);
+}
+
+ul {
+    list-style-type: square;
+    list-style-position: inside;
+}
+
+#participants li {
+    border-bottom: solid 1px var(--orange-dark);
+    margin-bottom: 2px;
+    padding-bottom: 4px;
+    color: var(--grey-lightest);
+    border-radius: 3px;
+}
+
 #container {
     margin-top: 52px;
+    height: calc(100% - 52px);
+    overflow-y: clip;
+}
+
+#callFrame {
+    flex-shrink: 0;
+    height: 100%;
+    padding-right: 15px;
+    flex-basis: calc(66.67% + 10px);
+}
+
+#sidebar {
+    flex-shrink: 2;
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+#invite {
+    max-width: 100%;
+    font-size: 0.9rem;
+    flex: 0 0 auto;
+    word-break: break-all;
+}
+
+.presence {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+
+.call {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.entry {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 70px;
+    flex-direction: column;
+}
+
+.entry button {
+    width: 150px;
+    height: 32px;
+    padding: 8px 16px;
+    font-weight: bold;
+    background: var(--green);
+    border-radius: 8px;
+    border-width: 0px;
+    cursor: pointer;
+}
+
+.entry button:hover {
+    background: var(--green-light);
+}
+
+.hidden {
+    display: none;
 }

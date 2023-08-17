@@ -11,7 +11,7 @@ header {
   align-items: center;
   padding: 0.5rem 1rem;
   width: 100%;
-  font-family: "Helvetica Neue", Sans-Serif;
+  font-family: "Helvetica Neue", Sans-Serif, sans-serif;
 }
 
 header {
@@ -26,6 +26,7 @@ header {
   align-items: center;
   justify-content: center;
   z-index: 2;
+  color: black;
 }
 
 .left-header {
